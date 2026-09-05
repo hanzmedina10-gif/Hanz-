@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANZ. | Culinary Portfolio</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for the minimalist, fine-dining aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@200;300;400;500;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                        'sans-bold': ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        'off-white': '#faf9f7',
+                        'ink': '#1a1a1a',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #faf9f7;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Smooth scrolling for anchor links */
+        html { scroll-behavior: smooth; }
+        
+        /* Fade in animation classes */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(3rem);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @font-face {
+          font-family: 'Garet Book';
+          src: url('Garet-Book.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+        }
+        .font-garet {
+          font-family: 'Garet Book', sans-serif;
+        }
+
+        /* Custom text selection color */
+        ::selection {
+            background-color: #1a1a1a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-ink selection:text-white">
+
+    <header id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500 bg-transparent py-8">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <a href="#" onclick="switchPage('home'); return false;" class="text-2xl font-garet font-bold tracking-[0.2em] uppercase text-ink" style="font-variant: small-caps;">
+                Hanz.
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-12">
+                <div id="desktop-nav-links" class="flex items-center gap-12">
+                    <a href="#home" onclick="scrollToSection(event, 'home')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60 hover:text-ink transition-colors">Home</a>
+                    <a href="#about" onclick="scrollToSection(event, 'about')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60 hover:text-ink transition-colors">About</a>
+                    <a href="#experience" onclick="scrollToSection(event, 'experience')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60 hover:text-ink transition-colors">Experience</a>
+                    <button onclick="switchPage('gallery')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60 hover:text-ink transition-colors">Gallery</button>
+                    <button onclick="switchPage('resume')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink border-b border-ink pb-1 hover:text-ink/60 hover:border-ink/60 transition-all">
+                        View Resume
+                    </button>
+                </div>
+                <div id="desktop-back-btn" class="hidden">
+                    <button onclick="switchPage('home')" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60 hover:text-ink transition-colors flex items-center gap-2">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i> Back
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-ink" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-off-white flex-col items-center justify-center gap-10 hidden md:hidden opacity-0 transition-opacity duration-300">
+        <div id="mobile-nav-links" class="flex flex-col items-center gap-10">
+            <a href="#home" onclick="scrollToSection(event, 'home')" class="text-2xl font-serif uppercase tracking-widest text-ink">Home</a>
+            <a href="#about" onclick="scrollToSection(event, 'about')" class="text-2xl font-serif uppercase tracking-widest text-ink">About</a>
+            <a href="#experience" onclick="scrollToSection(event, 'experience')" class="text-2xl font-serif uppercase tracking-widest text-ink">Experience</a>
+            <button onclick="switchPage('gallery')" class="text-2xl font-serif uppercase tracking-widest text-ink">Gallery</button>
+            <button onclick="switchPage('resume')" class="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] border-b border-ink pb-1">
+                View Resume
+            </button>
+        </div>
+        <div id="mobile-back-btn" class="hidden flex-col items-center gap-10">
+            <button onclick="switchPage('home')" class="text-2xl font-serif uppercase tracking-widest text-ink">
+                Back to Home
+            </button>
+        </div>
+    </div>
+
+    <main class="w-full">
+        
+        <div id="home-view" class="block">
+            
+            <!-- Hero Section -->
+            <section id="home" class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden px-6">
+                <!-- Background Image -->
+                <div class="absolute inset-0 z-0 opacity-20 grayscale">
+                    <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Background Plating" class="w-full h-full object-cover"/>
+                    <div class="absolute inset-0 bg-off-white/80"></div>
+                </div>
+                
+                <div class="relative z-10 text-center max-w-4xl mx-auto mt-20">
+                    <p class="text-[10px] md:text-xs font-semibold uppercase tracking-[0.3em] mb-8 text-ink/70">
+                        Culinary Arts Student & Commis Chef
+                    </p>
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-garet tracking-tight leading-[1.1] mb-8">
+                        Hanahniel Joseph <br /> Dela Cruz
+                    </h1>
+                    <p class="font-serif italic text-lg md:text-xl text-ink/60 max-w-xl mx-auto">
+                        "Be comfortable being uncomfortable." <br><span class="text-sm not-italic uppercase tracking-widest mt-4 block">- Gordon Ramsay</span>
+                    </p>
+                </div>
+
+                <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 animate-bounce cursor-pointer" onclick="scrollToSection(event, 'about')">
+                    <span class="text-[9px] uppercase tracking-[0.2em] font-semibold text-ink/40">Explore</span>
+                    <i data-lucide="arrow-down" class="w-4 h-4 text-ink/40"></i>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-24 md:py-40 max-w-[1400px] mx-auto px-6 md:px-12">
+                <div class="fade-in-section grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 items-center">
+                    <div class="order-2 md:order-1 space-y-8">
+                        <h2 class="text-[10px] font-semibold uppercase tracking-[0.3em] text-ink/50">The Journey</h2>
+                        <h3 class="text-3xl md:text-5xl font-serif leading-tight">
+                            A passionate culinary student from Malolos, Bulacan.
+                        </h3>
+                        <div class="space-y-6 text-[15px] leading-relaxed text-ink/80 font-light">
+                            <p>
+                                Hello! I am a 22-year-old Culinary Arts student currently studying at Our Lady of Fatima University. I am deeply passionate about food and culinary excellence.
+                            </p>
+                            <p>
+                                One of my greatest strengths is my adaptability; I thrive in new environments and am always open to continuous learning. I am constantly finding solutions to every problem that I face in and out of the kitchen.
+                            </p>
+                            <p>
+                                My ultimate goal is to open a restaurant that earns worldwide recognition, becoming an inspiration for the next generation of Filipino chefs.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2 aspect-[4/5] relative group overflow-hidden bg-gray-200">
+                        <img src="IMG_2811.JPEG" alt="Chef Working" class="w-full h-full object-cover grayscale transition-transform duration-1000 group-hover:scale-105"/>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="py-24 md:py-40 bg-white">
+                <div class="max-w-[1400px] mx-auto px-6 md:px-12">
+                    <div class="fade-in-section text-center mb-24 md:mb-32">
+                        <h2 class="text-[10px] font-semibold uppercase tracking-[0.3em] text-ink/50 mb-6">Experience</h2>
+                        <h3 class="text-4xl md:text-5xl font-serif">On The Job</h3>
+                    </div>
+
+                    <div class="fade-in-section grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+                        <div class="lg:col-span-7 aspect-[16/10] relative overflow-hidden group bg-gray-100">
+                            <img src="IMG_2936.JPEG" alt="Fresca Trattoria Experience" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"/>
+                        </div>
+                        <div class="lg:col-span-5 space-y-8">
+                            <div class="border-b border-ink/10 pb-6">
+                                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/50 mb-4">Jul - Aug 2025</p>
+                                <h4 class="text-3xl font-serif leading-tight">Fresca Trattoria</h4>
+                                <p class="text-sm font-serif italic text-ink/60 mt-2">Commis Chef Internship (300 Hrs)</p>
+                            </div>
+                            <div class="space-y-6 text-[14px] leading-relaxed text-ink/80 font-light">
+                                <p>
+                                    Located in Legazpi Village, Makati, Fresca is a Michelin-selected Italian Trattoria focused on exquisite homemade pasta owned by Chef Francesco D'Arrigo.
+                                </p>
+                                <p>
+                                    During my training, I significantly improved my culinary techniques. They trusted me to manage a station in the kitchen, treating me not just as a trainee, but as a colleague. I learned the high standards of a professional kitchen and developed a strong professional attitude that will guide my future endeavors.
+                                </p>
+                            </div>
+                            <a href="mailto:hanzmedina10@gmail.com" class="inline-block mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] border-b border-ink pb-1 hover:text-ink/60 hover:border-ink/60 transition-all">
+                                Contact Me
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="resume-view" class="hidden pt-32 pb-24 px-6 opacity-0 transition-opacity duration-500">
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-16 lg:p-24 shadow-[0_0_40px_rgba(0,0,0,0.03)]">
+                
+                <!-- Resume Header -->
+                <div class="border-b-2 border-ink pb-12 mb-12">
+                    <h1 class="text-4xl md:text-5xl font-garet uppercase tracking-widest mb-4">Hanahniel Joseph M. Dela Cruz</h1>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/70">
+                        <span>Blk 2 Lot 22 Ismael Homes, Dakila Malolos Bulacan</span>
+                        <span>09958253960</span>
+                        <span>hanzmedina10@gmail.com</span>
+                    </div>
+
+                    <!-- Download PDF Button -->
+                    <a href="RESUME HANZ.pdf" download="RESUME HANZ.pdf" class="inline-flex items-center gap-3 mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink border border-ink px-8 py-3 hover:bg-ink hover:text-off-white transition-colors duration-300">
+                        <i data-lucide="download" class="w-4 h-4"></i> Download PDF
+                    </a>
+                </div>
+
+                <div class="space-y-16">
+                    <!-- Objective -->
+                    <section>
+                        <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-6 text-ink">Career Objective</h2>
+                        <p class="text-[14px] leading-relaxed font-light text-ink/80 font-serif">
+                            To acquire valuable knowledge and skill to complement those that I have learned from school in actual job environment. To offer my service and determination to be an asset to your company throughout the duration of my training period.
+                        </p>
+                    </section>
+
+                    <!-- Education -->
+                    <section>
+                        <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-8 text-ink">Educational Background</h2>
+                        <div class="space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50 pt-1">Tertiary Level</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif text-lg font-bold">Our Lady of Fatima University, Valenzuela</h3>
+                                    <p class="text-sm mt-1 text-ink/80">Bachelor of Science in International Hospitality Management</p>
+                                    <p class="text-sm text-ink/80 italic font-serif">Specialization Culinary Arts (2023 - Present)</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50 pt-1">Upper Secondary</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif text-lg font-bold">Holy Spirit Academy of Malolos</h3>
+                                    <p class="text-sm mt-1 text-ink/80">Accountancy Business and Management (2021-2023)</p>
+                                    <p class="text-xs mt-2 font-semibold uppercase tracking-wider text-ink/60">Loyalty Medalist • Conduct Awardee • Best Thesis Awardee</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50 pt-1">Lower Secondary</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif text-lg font-bold">Holy Spirit Academy of Malolos</h3>
+                                    <p class="text-sm mt-1 text-ink/80">2017 - 2021</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50 pt-1">Primary Level</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif text-lg font-bold">Holy Spirit Academy of Malolos</h3>
+                                    <p class="text-sm mt-1 text-ink/80">2011 - 2017</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seminars -->
+                    <section>
+                        <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-8 text-ink">Seminars and Trainings Attended</h2>
+                        <div class="space-y-6">
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 border-t border-ink/5 pt-6 first:border-0 first:pt-0">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50">Jun 2026</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif font-bold text-base">Certificate of Appreciation Student Research Presenter</h3>
+                                    <p class="text-xs mt-1 text-ink/70 font-light">1st Global Citizenship and Leadership in Action Program, Sejong University Seoul, South Korea</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 border-t border-ink/5 pt-6 first:border-0 first:pt-0">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50">Sep 2025</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif font-bold text-base">Certificate of Course Completion Storytelling for Digital Marketing</h3>
+                                    <p class="text-xs mt-1 text-ink/70 font-light">Santander Open Academy, Content by University of Chicago</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 border-t border-ink/5 pt-6 first:border-0 first:pt-0">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50">Jul-Aug 2025</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif font-bold text-base">300HRS Internship at Michelin Selected Fresca Trattoria as Commis Chef</h3>
+                                    <p class="text-xs mt-1 text-ink/70 font-light">G/F, The Grand Midori, Bolanos, Legazpi Village, Makati City</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 border-t border-ink/5 pt-6 first:border-0 first:pt-0">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50">Feb 2024</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif font-bold text-base">Certificate of Attendance “A Closer look at Commissary Kitchen Operations”</h3>
+                                    <p class="text-xs mt-1 text-ink/70 font-light">MacroAsia SATS Food Industries Corporation, Muntinlupa City</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 border-t border-ink/5 pt-6 first:border-0 first:pt-0">
+                                <div class="text-[10px] font-semibold uppercase tracking-wider text-ink/50">Jan 2024</div>
+                                <div class="md:col-span-3">
+                                    <h3 class="font-serif font-bold text-base">Certificate of Participation of Hotel Immersion Seminar</h3>
+                                    <p class="text-xs mt-1 text-ink/70 font-light">SEDA Manila Bay, Paranaque City</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <!-- AHA Courses -->
+                    <section>
+                        <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-8 text-ink">AHA (American Hospitality Academy) Courses</h2>
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
+                                <div class="w-28 text-[10px] font-semibold uppercase tracking-wider text-ink/50">Dec 14, 2024</div>
+                                <h3 class="font-serif font-bold text-sm">Hospitality Professional Certificate</h3>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
+                                <div class="w-28 text-[10px] font-semibold uppercase tracking-wider text-ink/50">May 22, 2024</div>
+                                <h3 class="font-serif font-bold text-sm">Business Communication in the Hospitality & Tourism Industry</h3>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
+                                <div class="w-28 text-[10px] font-semibold uppercase tracking-wider text-ink/50">Dec 5, 2023</div>
+                                <h3 class="font-serif font-bold text-sm">Introduction to Hospitality and Tourism</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Eversity Courses -->
+                    <section>
+                        <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-8 text-ink">Eversity Online Campus Courses</h2>
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
+                                <div class="w-28 text-[10px] font-semibold uppercase tracking-wider text-ink/50">Jun 5, 2025</div>
+                                <h3 class="font-serif font-bold text-sm">Australian Standards for Serving Alcohol Responsibly</h3>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
+                                <div class="w-28 text-[10px] font-semibold uppercase tracking-wider text-ink/50">Jun 5, 2025</div>
+                                <h3 class="font-serif font-bold text-sm">Australian Work Health and Safety Procedures</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Personal Info & References Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 pt-8 border-t border-ink/10">
+                        <section>
+                            <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-6 text-ink">Personal Information</h2>
+                            <ul class="space-y-3 text-sm font-light text-ink/80">
+                                <li><span class="font-semibold text-ink mr-2">Date of Birth:</span> August 12, 2003</li>
+                                <li><span class="font-semibold text-ink mr-2">Place of Birth:</span> Malolos Bulacan</li>
+                                <li><span class="font-semibold text-ink mr-2">Height:</span> 167 cm</li>
+                                <li><span class="font-semibold text-ink mr-2">Weight:</span> 72kg</li>
+                                <li><span class="font-semibold text-ink mr-2">Citizenship:</span> Filipino</li>
+                                <li><span class="font-semibold text-ink mr-2">Religion:</span> Catholic</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] mb-6 text-ink">Character References</h2>
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="font-serif font-bold text-sm">Aries De Guzman</h3>
+                                    <p class="text-xs text-ink/70">PhilGurantee Corporation</p>
+                                    <p class="text-xs font-semibold mt-1">Contact No. 09988598797</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif font-bold text-sm">Dr. Paul Timothy A. Clemente, LPT, CSPE, CHP</h3>
+                                    <p class="text-xs text-ink/70">Associate Professor, CHIM, Our Lady Of Fatima University</p>
+                                    <p class="text-xs font-semibold mt-1">Contact No. 09664800367</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif font-bold text-sm">Marius Gabriel Yniguez</h3>
+                                    <p class="text-xs text-ink/70">Holy Spirit Academy of Malolos</p>
+                                    <p class="text-xs font-semibold mt-1">Contact No. 09551404698</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery View -->
+        <div id="gallery-view" class="hidden pt-32 pb-24 px-6 opacity-0 transition-opacity duration-500">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="text-center mb-16 fade-in-section">
+                    <h1 class="text-4xl md:text-5xl font-garet uppercase tracking-widest mb-4">Culinary Gallery</h1>
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
+                        A visual journey through my lens. <br/> 
+                        <a href="https://unsplash.com/@hanz_dc" target="_blank" class="hover:text-ink underline mt-4 inline-flex items-center gap-2">
+                            <i data-lucide="external-link" class="w-3 h-3"></i> @hanz_dc on Unsplash
+                        </a>
+                    </p>
+                </div>
+                
+                <!-- Masonry Grid -->
+                <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                    <!-- Images will be injected here via JavaScript for easy updating -->
+                </div>
+                
+                <div class="mt-20 text-center">
+                    <a href="https://unsplash.com/@hanz_dc" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink border border-ink px-8 py-3 hover:bg-ink hover:text-off-white transition-colors duration-300">
+                        View More on Unsplash
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center bg-off-white border-t border-ink/5">
+        <p class="text-ink/40 text-[9px] uppercase tracking-[0.3em] font-semibold">
+            © 2026 <span class="font-garet">Hanahniel Joseph M. Dela Cruz</span>. All Rights Reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // ---------------------------------------------------------
+        // PASTE YOUR UNSPLASH COLLECTION IMAGE URLS HERE
+        // ---------------------------------------------------------
+        // Since Unsplash collections cannot be read by bots, you can easily 
+        // update your gallery by replacing the links below. 
+        // Right-click an image in your Unsplash collection and select "Copy image address".
+        const galleryImages = [
+            "https://images.unsplash.com/photo-1782444223804-490addf9b74d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMjE3NjY3M3x8ZW58MHx8fHx8",
+            "https://images.unsplash.com/photo-1782444223826-06c775fd9a47?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MnwxMjE3NjY3M3x8ZW58MHx8fHx8",
+            "https://images.unsplash.com/photo-1782444223810-cce4a10d5431?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8M3wxMjE3NjY3M3x8ZW58MHx8fHx8",
+            "https://images.unsplash.com/photo-1782971178491-ccc2ea88501b?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8NHwxMjE3NjY3M3x8ZW58MHx8fHx8",
+            "https://images.unsplash.com/photo-1782971442826-6f71cae7b429?q=80&w=1227&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1785840591862-a6cd9e413160?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwxMjE3NjY3M3x8ZW58MHx8fHx8"
+        ];
+
+        const galleryGrid = document.getElementById('gallery-grid');
+        galleryImages.forEach((src, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = "break-inside-avoid fade-in-section group relative overflow-hidden bg-gray-100";
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Gallery Image ${index + 1}`;
+            img.className = "w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105";
+            
+            const overlay = document.createElement('div');
+            overlay.className = "absolute inset-0 bg-ink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none";
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(overlay);
+            galleryGrid.appendChild(wrapper);
+        });
+
+        let menuOpen = false;
+
+        // Handle Navbar Background on Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-off-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                nav.classList.remove('bg-transparent', 'py-8');
+            } else {
+                nav.classList.remove('bg-off-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                nav.classList.add('bg-transparent', 'py-8');
+            }
+        });
+
+        // Setup Intersection Observer for Fade-in effects
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mobile Menu Logic
+        function toggleMobileMenu() {
+            menuOpen = !menuOpen;
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menuOpen) {
+                menu.classList.remove('hidden');
+                setTimeout(() => menu.classList.add('opacity-100', 'flex'), 10);
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.remove('opacity-100');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
+                }, 300);
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        function closeMobileMenu() {
+            if(menuOpen) toggleMobileMenu();
+        }
+
+        // Smooth Scroll to Section
+        function scrollToSection(event, sectionId) {
+            event.preventDefault();
+            const el = document.getElementById(sectionId);
+            
+            // If we are currently on the resume or gallery page, switch to home first
+            if(!document.getElementById('home-view').classList.contains('block')) {
+                switchPage('home', false);
+                setTimeout(() => {
+                    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+            closeMobileMenu();
+        }
+
+        // Switch between Home, Resume, and Gallery Page
+        function switchPage(page, scroll = true) {
+            const views = {
+                'home': document.getElementById('home-view'),
+                'resume': document.getElementById('resume-view'),
+                'gallery': document.getElementById('gallery-view')
+            };
+            
+            // Desktop Nav
+            const deskNav = document.getElementById('desktop-nav-links');
+            const deskBack = document.getElementById('desktop-back-btn');
+            
+            // Mobile Nav
+            const mobNav = document.getElementById('mobile-nav-links');
+            const mobBack = document.getElementById('mobile-back-btn');
+
+            // Hide all views first
+            Object.values(views).forEach(view => {
+                if(view) {
+                    view.classList.remove('block');
+                    view.classList.remove('opacity-100');
+                    view.classList.add('hidden');
+                }
+            });
+
+            if(page === 'home') {
+                views['home'].classList.remove('hidden');
+                views['home'].classList.add('block');
+
+                deskNav.classList.remove('hidden');
+                deskNav.classList.add('flex');
+                deskBack.classList.add('hidden');
+                deskBack.classList.remove('block');
+
+                mobNav.classList.remove('hidden');
+                mobNav.classList.add('flex');
+                mobBack.classList.add('hidden');
+                mobBack.classList.remove('flex');
+
+            } else {
+                // To Resume or Gallery
+                const targetView = views[page];
+                targetView.classList.remove('hidden');
+                setTimeout(() => {
+                    targetView.classList.add('opacity-100');
+                    
+                    // Re-trigger observer for new gallery images to fade in
+                    if(page === 'gallery') {
+                        document.querySelectorAll('#gallery-view .fade-in-section').forEach(section => {
+                            section.classList.remove('is-visible');
+                            observer.observe(section);
+                        });
+                        lucide.createIcons();
+                    }
+                }, 50);
+
+                deskNav.classList.add('hidden');
+                deskNav.classList.remove('flex');
+                deskBack.classList.remove('hidden');
+                deskBack.classList.add('block');
+
+                mobNav.classList.add('hidden');
+                mobNav.classList.remove('flex');
+                mobBack.classList.remove('hidden');
+                mobBack.classList.add('flex');
+            }
+            
+            if (scroll) window.scrollTo(0, 0);
+            closeMobileMenu();
+        }
+    </script>
+</body>
+</html>
